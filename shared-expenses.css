@@ -1,0 +1,37 @@
+/* CSS declarations go here */
+.clear {clear:both;}
+
+body {
+   margin-top: 60px;
+}
+#top {
+   margin-bottom:15px;
+}
+#main #expenses > button, #main #credits > button {
+   margin-bottom:10px;
+}
+#main #expenses > table, #main #credits > table {
+   margin-bottom:50px;
+}
+
+#side ul {
+   list-style-type:none;
+   margin:0;
+}
+#side li {
+   margin-bottom:12px;
+}
+#side h2 {
+   font-size: 12px;
+   display:inline-block;
+   width:40%;
+}
+#side .balance {
+   width:40%;
+   display:inline-block;
+   text-align:right;
+}
+footer p a {
+   color: #ccc;
+   font-size: 10px;
+}

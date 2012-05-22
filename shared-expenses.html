@@ -1,0 +1,214 @@
+<head>
+  <title>House Expenses</title>
+</head>
+
+<body>
+  {{> navigation}}
+  {{> container}}
+</body>
+
+<template name="navigation">
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="#">House Expenses</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li><a href="#">Expenses</a></li>
+            <li><a href="#credits">Credits</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="container">
+  <div id="content" class="container">
+    <div class="row">
+      <div id="main" class="span10">
+	{{> main}}
+      </div>
+      <div id="side" class="span2">
+	<div class="well">
+	  {{> side}}
+	</div>
+	<footer class="footer">
+	  <p class="pull-right"><a href="https://onfrst.com">&copy; FRST</a></p>
+	</footer>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<template name="main">
+  <div id="expenses">
+    {{> expenses}}
+  </div>
+  <div id="credits">
+    {{> credits}}
+  </div>
+</template>
+
+<template name="expenses">
+  <button class="btn btn-success btn-mini pull-right new">
+    <i class="icon-white icon-plus"></i>
+    New Expense
+  </button>
+
+  <br/>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+	<th>Person</th>
+	<th>Date</th>
+	<th>Note</th>
+	<th>Amount</th>
+	<th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each expenses}}
+          {{> expense}}
+      {{/each}}
+    </tbody>
+  </table>
+</template>
+
+<template name="credits">
+  <button class="btn btn-success btn-mini pull-right new">
+    <i class="icon-white icon-plus"></i>
+    New Credit
+  </button>
+
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+	<th>Person</th>
+	<th>Date</th>
+	<th>Note</th>
+	<th>Recipient</th>
+	<th>Amount</th>
+	<th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each credits}}
+          {{> credit}}
+      {{/each}}
+    </tbody>
+  </table>
+
+</template>
+
+<template name="expense">
+  {{#if selected}}
+  <tr>
+    <td class="person">
+      <select class="input-medium">
+	<option>---</option>
+	{{#each people}}
+	  <option value="{{_id}}" {{#if person_selected_is name}}selected="selected"{{/if}}>{{name}}</option>
+	{{/each}}
+      </select>
+    </td>
+    <td class="date">
+      <input type="date" placeholder="mm/dd/yyyy" class="input-small"
+      value="{{nice_date date}}" />
+    </td>
+    <td class="note">
+      <textarea class="input-medium">{{note}}</textarea>
+    </td>
+    <td class="amount">
+      <input type="number" placeholder="0.00" class="input-small"
+      value="{{fixed amount}}" />
+    </td>
+    <td>
+      <button class="btn btn-danger btn-mini delete">
+	<i class="icon-white icon-remove"></i>
+      </button>
+    </td>
+  </tr>
+
+  {{/if}}
+  {{#unless selected}}
+  <tr>
+    <td class="person">{{nice_person person}}</td>
+    <td class="date">{{nice_date date}}</td>
+    <td class="note">{{note}}</td>
+    <td class="amount">{{money amount}}</td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+  {{/unless}}
+</template>
+
+<template name="credit">
+  {{#if selected}}
+  <tr>
+    <td class="person">
+      <select class="input-medium">
+	<option>---</option>
+	{{#each people}}
+	  <option value="{{_id}}"  {{#if person_selected_is name}}selected="selected"{{/if}}>{{name}}</option>
+	{{/each}}
+      </select>
+    </td>
+    <td class="date">
+      <input type="date" placeholder="mm/dd/yyyy" class="input-small"
+      value="{{nice_date date}}" />
+    </td>
+    <td class="note">
+      <textarea class="input-medium">{{note}}</textarea>
+    </td>
+    <td class="recipient">
+      <select class="input-medium">
+	<option>---</option>
+	{{#each people}}
+	  <option value="{{_id}}"  {{#if recipient_selected_is name}}selected="selected"{{/if}}>{{name}}</option>
+	{{/each}}
+      </select>
+    </td>
+    <td class="amount">
+      <input type="number" placeholder="0.00" class="input-small"
+      value="{{fixed amount}}" />
+    </td>
+    <td>
+      <button class="btn btn-danger btn-mini delete">
+	<i class="icon-white icon-remove"></i>
+      </button>
+    </td>
+  </tr>
+
+  {{/if}}
+  {{#unless selected}}
+  <tr>
+    <td class="person">{{nice_person person}}</td>
+    <td class="date">{{nice_date date}}</td>
+    <td class="note">{{note}}</td>
+    <td class="type">{{nice_person recipient}}</td>
+    <td class="amount">{{money amount}}</td>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+  {{/unless}}
+</template>
+
+<template name="side">
+  <ul>
+    {{#each people}}
+      {{> person}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="person">
+  <li class="person">
+    <h2>{{first_name name}}:</h2>
+    <span class="balance">{{money balance}}</span>
+  </li>
+</template>
