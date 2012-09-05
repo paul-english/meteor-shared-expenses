@@ -11,11 +11,27 @@
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
-        <a class="brand" href="#">House Expenses</a>
+        <a class="brand" href="#">Expenses</a>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="#">Expenses</a></li>
-            <li><a href="#credits">Credits</a></li>
+            <li class="active"><a class="bills" href="#bills">Bills</a></li>
+            <li><a class="payments" href="#payments">Payments</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+        <div class="nav-collapse pull-right">
+          <ul class="nav">
+	    <li>
+	      <button class="btn btn-success btn-mini pull-right new new-bill">
+		<i class="icon-white icon-plus"></i>
+		New Bill
+	      </button>
+	    </li>
+	    <li>
+	      <button class="btn btn-success btn-mini pull-right new new-payment">
+		<i class="icon-white icon-plus"></i>
+		New Payment
+	      </button>
+	    </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -34,7 +50,12 @@
 	  {{> side}}
 	</div>
 	<footer class="footer">
-	  <p class="pull-right"><a href="https://onfrst.com">&copy; FRST</a></p>
+	  <p class="pull-right">
+	    <a id="export" href="#">Export JSON</a>
+	    {{#if export}}
+	    <textarea id="out">{{data}}</textarea>
+	    {{/if}}
+	  </p>
 	</footer>
       </div>
     </div>
@@ -52,10 +73,6 @@
 </template>
 
 <template name="expenses">
-  <button class="btn btn-success btn-mini pull-right new">
-    <i class="icon-white icon-plus"></i>
-    New Expense
-  </button>
 
   <br/>
 
@@ -65,6 +82,7 @@
 	<th>Person</th>
 	<th>Date</th>
 	<th>Note</th>
+	<th>Bill To</th>
 	<th>Amount</th>
 	<th>&nbsp;</th>
       </tr>
@@ -78,11 +96,6 @@
 </template>
 
 <template name="credits">
-  <button class="btn btn-success btn-mini pull-right new">
-    <i class="icon-white icon-plus"></i>
-    New Credit
-  </button>
-
   <table class="table table-condensed">
     <thead>
       <tr>
@@ -121,6 +134,17 @@
     <td class="note">
       <textarea class="input-medium">{{note}}</textarea>
     </td>
+    <td class="to">
+      <p class="help">Default everyone.</p>
+      {{#each people}}
+        {{#unless person_selected_is name}}
+        <label>
+	  <input type="checkbox" name="to" {{#if bill_to_selected _id}}checked="checked"{{/if}}/>
+	  {{name}}
+	</label>
+        {{/unless}}
+      {{/each}}
+    </td>
     <td class="amount">
       <input type="number" placeholder="0.00" class="input-small"
       value="{{fixed amount}}" />
@@ -138,6 +162,7 @@
     <td class="person">{{nice_person person}}</td>
     <td class="date">{{nice_date date}}</td>
     <td class="note">{{note}}</td>
+    <td class="to">{{nice_bill_to bill_to}}</td>
     <td class="amount">{{money amount}}</td>
     <td>
       &nbsp;

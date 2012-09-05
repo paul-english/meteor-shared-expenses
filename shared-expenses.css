@@ -35,3 +35,11 @@ footer p a {
    color: #ccc;
    font-size: 10px;
 }
+footer textarea {
+   width:160px;
+}
+
+.help {
+   color: #aaa;
+   font-size:10px;
+}
